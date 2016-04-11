@@ -1,0 +1,208 @@
+#VRML V2.0 utf8
+
+DEF outside Viewpoint{							 #two viewpoints
+    position -5 35 110
+	orientation	-1 0 0 0.15
+	fieldOfView	1.1717
+	description	"outside"
+}
+
+DEF	inside Viewpoint {
+    position 12 0 45
+	orientation	0 1 0 0.65
+	fieldOfView	1
+	description	"inside"
+}
+
+Background {									 #skycolor and groundcolor
+    skyAngle [1.309 1.571]
+	skyColor [
+	    0.0 0.0 0.8
+		0.2 0.5 0.7
+		1.0 1.0 1.0
+	]
+	groundAngle	[1.396 1.571]
+	groundColor	[
+	    0.0 0.0 0.0
+		0.6 0.7 0.1
+		1.0 1.0 1.0
+	]
+}
+
+Transform {										 #inline a house
+    translation	0 0 20
+	scale 5 5 5
+	children [
+	    Inline {
+		    url	"house.wrl"
+		}
+	]
+}
+												 #inline a clock
+Transform {
+    translation	2 2 20.8
+	scale  2 2 3
+	children [
+	    Inline {
+		    url	"clock.wrl"
+		}
+	]
+}
+
+Transform {										 #inline a television
+    translation	-20 5 32.5
+	rotation 0 1 0 1.5708
+	scale 4 4 2
+	children [
+	    Inline {
+		    url	"TV.wrl"
+		}
+	]
+}
+
+DEF	fcs Group {									 #a group of windmills
+	children [
+        DEF fc Transform {
+            translation	-35 -4 -40
+        	scale 2 2 2
+        	children [
+        	    Inline {
+		            url	"fengche.wrl"
+        		}
+        	]
+        }
+
+        Transform {
+            translation	0 0 -40
+        	children [
+	            USE	fc
+        	]
+        }
+
+        Transform {
+            translation	0 0 -80
+        	children [
+	            USE	fc
+        	]
+        }
+
+        Transform {
+            translation	0 0 -120
+        	children [
+	            USE	fc
+        	]
+        }
+    ]
+}
+
+Transform {
+    translation	50 0 0
+	children [
+	    USE	fcs
+	]
+}
+
+Transform {
+    translation	100 0 0
+	children [
+	    USE	fcs
+	]
+}
+
+Transform {
+    translation	-50 0 0
+	children [
+	    USE	fcs
+	]
+}
+
+DEF	trees Group	{								 #a group of trees
+	children [
+        DEF tree Transform {
+            translation	100 -5 -30
+        	scale 3 3 3
+        	children [
+	            Billboard {
+        		    children [
+				        Shape {
+		        		    appearance Appearance {
+        					    material Material {
+						            diffuseColor 0.8 0.8 0.8
+				        			ambientIntensity 0.2
+		        				}
+        						texture	ImageTexture {
+						            url	"my texture/tree.PNG"
+					        	}
+			        		}
+	        				geometry IndexedFaceSet	{
+	   			        	    coord Coordinate {
+		        				    point [
+							            -2 0 0.015
+						        		2  0 0.015
+				        				-2 8 0.015
+		        						2  8 0.015
+							        ]
+						        }
+				        		coordIndex [0,1,3,2,-1]
+		        				texCoord TextureCoordinate {
+        						    point [
+							            0.005 0.005,
+					        			0.995 0.005,
+			        					0.005 0.995,
+	        							0.995 0.995
+							        ]
+					        	}
+			        		}
+				        }
+		        	]
+        			axisOfRotation 0 1 0
+		        }
+        	]
+        }
+
+		Transform {
+		    translation	0 0 -40
+			children [
+			    USE	tree
+			]
+		}
+
+		Transform {
+		    translation	0 0 -80
+			children [
+			    USE	tree
+			]
+		}
+
+		Transform {
+		    translation	0 0 -120
+			children [
+			    USE	tree
+			]
+		}
+    ]
+}
+
+Transform {
+    translation	-220 0 0
+	children [
+	    USE	trees
+	]
+}
+
+Sound {											 #background music
+    source AudioClip {
+	    url	"my file/Bandari liulihupan.mid"
+		description	"sound"
+		loop TRUE
+		pitch 1.0
+	}
+	direction 0 0 1
+	intensity 1
+	location 0 0 0
+	maxBack	500
+	maxFront 500
+	minBack	0
+	minFront 0
+	spatialize TRUE
+}

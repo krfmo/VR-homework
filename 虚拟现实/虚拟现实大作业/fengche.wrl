@@ -1,0 +1,168 @@
+#VRML V2.0 utf8
+
+Group {
+	children [
+        DEF bars Transform {
+        	translation	0 5 3.5
+            children [
+	             DEF bar1 Transform{
+        		    translation	0 0 0
+        			children [
+		        		Transform {
+					        translation	0 0 0
+			        		children [
+	        		            Shape {
+				                    appearance Appearance {
+				        	            material Material {
+					                 	    diffuseColor 0.3 0.3 0.5
+					        				ambientIntensity 0.3
+			        						shininess 0.1
+					        				specularColor 0.7 0.7 0.8
+				        	        	}
+				                	}
+				                	geometry Cylinder {
+				            	        radius 0.04
+				    		            height 12
+				    	            }
+			            	    }
+		        		    ]
+        			    }
+
+			        	DEF a1 Transform {
+	        			    translation	0 4.5 0
+					        rotation 1 0 0 1.5708 
+			        		children [
+	        				    Shape {
+						            appearance Appearance {
+				        			    material Material {
+		        						    diffuseColor 0.3 0.6 0.9
+					        			}
+								        texture	ImageTexture {
+						        		    url	"my texture/wall4.jpg"
+				        				}
+				        			}
+				        			geometry Box {
+				        			    size 1 0.1 3
+							        }
+			        			}
+					        ]
+			        	}
+
+			        	DEF a2 Transform {
+			        	    translation	0 -9 0
+			         		children [
+				        	    USE a1
+		        			]
+	        			}
+	        		]
+	        	}
+
+	        	DEF bar2 Transform {
+                    rotation 0 0 1 1.5708
+                	children [
+                	    USE	bar1
+        	        ]
+                }
+
+	        	Transform {
+		            children [
+			            Shape {
+			        	    appearance Appearance {
+			        		    material Material {
+				        		    diffuseColor 0.3 0.3 0.5
+				        			ambientIntensity 0.3
+				        			shininess 0.1
+				        			specularColor 0.7 0.7 0.8
+			        			}
+			        		}
+			        		geometry Sphere	{
+			        		    radius 0.2
+		        			}
+	        			}
+	        		]
+	        	}
+        	]
+        }
+        DEF	Time TimeSensor	{
+            cycleInterval 6.0
+        	loop TRUE
+        }
+        DEF	fengche OrientationInterpolator	{
+            key	[
+        	    0.0,0.2,0.4,0.6,0.8,1.0
+        	]
+        	keyValue [
+        	    0.0 0.0 1.0 0.0
+	        	0.0 0.0 1.0 1.256
+        		0.0 0.0 1.0 2.512
+        		0.0 0.0 1.0 3.768
+        		0.0 0.0 1.0 5.024
+        		0.0 0.0 1.0 6.280
+        	]
+        }
+    ]
+}
+ROUTE Time.fraction_changed	TO fengche.set_fraction
+ROUTE fengche.value_changed	TO bars.set_rotation
+
+
+Transform {
+    children [
+	    Shape {
+		    appearance Appearance {
+			    material Material {
+				    diffuseColor 0.3 0.6 0.9
+				}
+				texture	ImageTexture {
+				    url	"my texture/wall2.jpg"
+				}
+			}
+			geometry Cylinder {
+			    radius 3
+				height 6
+			}
+		}
+	]
+}
+
+Transform {
+	translation	0 4.75 0
+    children [
+	    Shape {
+		    appearance Appearance {
+			    material Material {
+				    diffuseColor 0.3 0.6 0.9
+				}
+				texture	ImageTexture {
+				    url	"my texture/wall3.jpg"
+				}
+			}
+			geometry Cone {
+			    bottomRadius 3.2
+				height 3.5
+			}
+		}
+	]
+}
+
+Transform {
+	translation	0 5 2.5
+	rotation 1 0 0 1.5708
+    children [
+	    Shape {
+		    appearance Appearance {
+			    material Material {
+				    diffuseColor 0.3 0.3 0.5
+					ambientIntensity 0.3
+					shininess 0.1
+					specularColor 0.7 0.7 0.8
+				}
+			}
+			geometry Cylinder {
+			    radius 0.1
+				height 2.3
+			}
+		}
+	]
+}
+

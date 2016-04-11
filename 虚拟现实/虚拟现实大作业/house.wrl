@@ -1,0 +1,183 @@
+#VRML V2.0 utf8
+
+Background {
+    skyColor 0.5 0.5 1
+}
+
+DEF	house Transform	{
+	children [
+        DEF	walls Group	{
+	        children [
+	            DEF box1 Shape {                    #backside of the house
+                    appearance Appearance {
+	                    material Material {
+		                    diffuseColor 0.3 0.3 0.5
+			                ambientIntensity 0.3
+			                shininess 0.1
+			                specularColor 0.7 0.7 0.8
+		                }
+						texture	ImageTexture {
+						    url	"my texture/wall.jpg"
+						}
+	                }
+	                geometry Box {
+	                    size 10 5 0.1
+	                }
+                }
+
+                DEF box2 Transform {			    #leftside of the house
+                    translation	-5 0 2.45
+	                rotation 0 1 0 1.5708
+	                scale 0.5 1 1
+	                children [
+	                USE	box1
+	                ]
+                }
+
+                Transform {							#frontside without the door
+                    translation	-5 -2.5 5
+		        	rotation 1 0 0 -1.5708
+	                children [
+		        		Shape {
+				            appearance Appearance {
+	                            material Material {
+		                            diffuseColor 0.3 0.3 0.5
+	                                ambientIntensity 0.2
+		                            shininess 0.1
+	                                specularColor 0 0 0
+	                         	}
+						        texture	ImageTexture {
+								    url	"my texture/wall.jpg"
+									repeatS	TRUE
+									repeatT	TRUE
+								}
+                        	}
+                        	geometry Extrusion {
+	                            crossSection [
+		                            0 0,6 0,6 4,8 4,8 0,10 0,10 5,0 5,0 0
+	                        	]
+	                        	spine [
+		                            0 0 0,
+		                        	0 0.1 0
+	                        	]
+                        	}
+                        }
+		        	]
+               }
+
+                Transform {				            #rightside of the house
+                    translation	10 0 0
+	                children [USE box2 ]
+                }
+
+	        	DEF roof Transform {				#roof of the house
+	        		translation	0 2.5 2.5
+	        		children [
+	        	        Shape {
+		                    appearance Appearance {
+			                    material Material {
+					                diffuseColor 0.2 0.2 0.8
+					                ambientIntensity 0.1
+					                shininess 0.15
+				        	        specularColor 0.8 0.8 0.8
+				                }
+								texture	ImageTexture {
+								    url	"my texture/wall6.jpg"
+								}
+			                }
+			                geometry Box {
+			                size 12 0.5 6
+			                }
+		                }
+		            ]
+	            }
+
+	        	DEF	chimney Transform {				#chimney of the house
+	        	    translation	2.5 3.75 1.25
+		        	children [
+		        	    Shape {
+				            appearance Appearance {
+					            material Material {
+						            diffuseColor 0.2 0.2 0.8
+						        	ambientIntensity 0.1
+						        	shininess 0.15
+						        	specularColor 0.8 0.8 0.8
+					        	}
+								texture	ImageTexture {
+								    url	"my texture/wall6.jpg"
+								}
+				        	}
+				        	geometry Cylinder {
+				        	    radius 0.5
+				        		height 2
+				        	}
+			        	}
+		        	]
+	        	}
+            ]
+        }
+
+        Group {										#door of the house
+	        children [
+                DEF door Transform {
+	                translation 2 -0.5 5
+                	children [
+                        Group{
+	                        children [
+	                        	Transform	{
+		                            translation 0 0 0
+		                            children [
+		                                Shape {
+			                                appearance Appearance {
+			                                	material Material {
+				                                    diffuseColor 0.3 0.2 0.0
+				                                    ambientIntensity 0.4
+				                                    shininess 0.2
+				                                    specularColor 0.7 0.7 0.6
+				                                    transparency 0.0
+			                                	}
+			                                }
+			                                geometry Box {
+			                                 	size 2 4 0.1
+			                                }
+		                             	}
+		                            ]
+		                        }
+		                        Transform {			#the doornob
+		                            translation -0.5 0 0.1
+		                            children [
+		                                Shape {
+			                                appearance Appearance	{
+			                    	            material Material	{
+			                     	                diffuseColor 0.5 0.5 0.7
+				                                    ambientIntensity 0.4
+				                                    shininess	0.2
+				                                    specularColor	0.8 0.8 0.9
+				                                    transparency 0
+			                                	}
+			                                }
+		   	                                geometry Sphere {
+			                                	radius 0.15
+			                                }
+		                            	}
+		                            ]
+		                        }
+	                        ]
+                        }
+	                	DEF	door_cs CylinderSensor {
+		                    autoOffset TRUE
+		                    diskAngle	0.262
+		                    enabled TRUE
+		                    autoOffset TRUE
+		                    maxAngle 1.5708
+		                    minAngle 0.0
+		                    offset 1.576
+		                }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
+ROUTE door_cs.rotation_changed TO door.set_rotation

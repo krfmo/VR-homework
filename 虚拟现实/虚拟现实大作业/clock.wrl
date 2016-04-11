@@ -1,0 +1,293 @@
+#VRML V2.0 utf8
+
+DEF	clock Group	{
+	children [
+Shape {
+	appearance Appearance {
+		material Material {
+			diffuseColor 0.8 0.8 0.8 }
+			texture	ImageTexture {
+			    url	"my texture/clock.jpg"
+			}
+	 	}
+	geometry Box { 	size 4 4 0.2 	} }
+DEF	time1 TimeSensor {
+    cycleInterval 1  
+	loop TRUE
+	enabled	TRUE }
+DEF an Transform {
+	translation	0 0 0.15
+	children	[
+    DEF ts0 TouchSensor {}
+		Shape {
+			appearance Appearance {
+				material Material {		        
+					diffuseColor 0.5 0.3 0		
+					ambientIntensity 0.4		
+					specularColor 0.7 0.7 0.6	
+					shininess 0.2 } }			
+			geometry Sphere	{ radius 0.11 }	  # ť
+		}	]	}
+Transform {
+	translation	0 0 0.15
+	children [
+	DEF	p1 Transform {					# 
+			translation	0 0.9 0.05	    
+			children [
+             DEF ts1 CylinderSensor {}
+				Shape {
+					appearance Appearance {
+						material Material {
+							diffuseColor 0.5 0.5 0
+							ambientIntensity 0.4
+							specularColor 0.8 0.8 0.9
+							shininess 0.2 }	}
+					geometry Cylinder {
+						height 1.62
+						radius 0.03	}
+				} 	]	}
+	DEF	p2 Transform {					 # 
+			translation	0 0.8 0	    	
+			children [
+                DEF ts2 CylinderSensor {}
+				Shape {
+					appearance Appearance {
+						material Material {
+							diffuseColor 0.3 0.6 0.9
+							ambientIntensity 0.4
+							specularColor 0.8 0.8 0.9
+							shininess 0.1 }	}
+					geometry Cylinder {
+						height 1.5
+						radius 0.05	}
+				}  ]  }
+ 	DEF	p3 Transform {					# ʱ
+			translation	0 0.6 0	    	
+			children [
+                DEF ts3 CylinderSensor {}
+				Shape {
+					appearance Appearance {
+						material Material {
+							diffuseColor 0.3 0.6 0.9
+							ambientIntensity 0.4
+							specularColor 0.8 0.8 0.9
+							shininess 0.1  }  }
+					geometry Cylinder {
+						height 1.2
+						radius 0.05	}
+				} 	]  	}
+	DEF	bkd Transform {
+			translation	0 1.8 0			
+			children [
+				Shape {
+					appearance Appearance {
+						material Material {
+							diffuseColor 0.8 0.2 0.5
+							ambientIntensity 0.4
+							specularColor 0.8 0.8 0.9
+							shininess 0.2  }  }
+					geometry Sphere	{
+						radius 0.07	}
+				}  ]  }
+		        Transform {
+			rotation 0 0 1 0.524
+			children [
+				USE	bkd	]}
+				Transform {
+			rotation 0 0 1 1.048
+			children [
+				        USE	bkd	]}
+				Transform {
+			rotation 0 0 1 1.572
+			children [
+				USE	bkd	  ]}
+				Transform {
+			rotation 0 0 1 2.096
+			children [
+				USE	bkd	]}
+				Transform {
+			rotation 0 0 1 2.620
+			children [
+				USE	bkd	 ]}
+				Transform {
+			rotation 0 0 1 3.144
+			children [
+				USE	bkd	]}
+				Transform {
+			rotation 0 0 1 3.668
+			children [
+				USE	bkd	 ]}
+				Transform {
+			rotation 0 0 1 4.192
+			children [
+				USE	bkd	 ]}
+				Transform {
+			rotation 0 0 1 4.716
+			children [
+				USE	bkd	]}
+				Transform {
+			rotation 0 0 1 5.240
+			children [
+				USE	bkd	]}
+				Transform {
+			rotation 0 0 1 5.764
+			children [
+				USE	bkd	]}
+  ]}
+DEF	Controller Script {
+  eventIn  SFTime clicked
+  eventOut SFBool enabledt
+  eventOut SFBool setenabled
+  field	SFInt32	i  1
+  field	SFInt32	j  1
+  field	SFInt32	k  1
+  field	SFInt32	on 0
+  field	SFFloat	sz -0.10472
+  field	SFFloat	mz -0.10472
+  field	SFFloat	hz -0.10472
+  eventOut SFTime miao
+  eventOut SFTime fen
+  eventOut SFTime xshi
+  eventIn SFTime sec_xz
+  eventIn SFRotation xuanzhuan_sec
+  eventIn SFRotation xuanzhuan_min
+  eventIn SFRotation xuanzhuan_hou
+  field	SFNode sec USE p1
+  field	SFNode min USE p2
+  field	SFNode hou USE p3
+  url "vrmlscript:
+  function initialize(){
+	print('ťԵʱ룡');
+	enabledt=TRUE;
+    setenabled=TRUE;
+	mydate=new Date();				 //»ȡϵͳʱ
+    year=mydate.getFullYear();
+	mont=mydate.getMonth();
+	date=mydate.getDate();
+	hour=mydate.getHours();
+	minu=mydate.getMinutes();
+	seco=mydate.getSeconds();
+	deff1=seco;
+	deff2=minu*60+seco;
+	print('ʱ䣺='+year+''+mont+''+date+''+hour+''+minu+''+seco+'');  
+	if (deff2>720){			  //ʱת1720=3600*12/60
+	  deff2=deff2-720*Math.floor(deff2/720); } // ʱʼλȷ
+	hour1=hour+minu/60;
+	loop=2*3.14159*hour1/12/0.10472;
+	while(k<=loop){
+	xuanzhuan_hou();}
+	minu1=minu+seco/60;				   // ʼλȷ
+	loop=2*3.14159*minu/60/0.10472;
+	while(j<=loop){
+	xuanzhuan_min(); }
+	loop=2*3.14159*seco/60/0.10472+1;	//�1
+	while(i<=loop){						//ʼλȷ
+	xuanzhuan_sec(); }
+	setenabled=FALSE;
+    }
+  function clicked(value){		//ʱƿ
+	  enabledt=!enabledt;
+      setenabled=!setenabled; }
+  function sec_xz(a){		  
+      a=a+hour*3600+minu*60+seco; 
+      if (on==0){
+		  on=1;
+          miao=a;	
+		  fen=a;
+		  xshi=a;  }
+		  if (a-miao>=1){	   //ת11
+        hd=1.57+sz*i;
+        y=0.9*Math.sin(hd);
+        x=0.9*Math.cos(hd);
+		z=0.05;
+		with (sec){
+		  rotation[0]=0;
+		  rotation[1]=0;		
+		  rotation[2]=1;
+		  rotation[3]=sz*i;
+    	  translation[0]=x;
+		  translation[1]=y;
+		  translation[2]=z;	}
+		i=i+1;
+	    miao=a;	}
+ 		  if (a+deff1-fen>=60){	 //ת160
+  		hd=1.57+sz*j;			    
+        y=0.8*Math.sin(hd);
+        x=0.8*Math.cos(hd);
+		z=0;
+		min.rotation[0]=0;
+		min.rotation[1]=0;		
+		min.rotation[2]=1;
+		min.rotation[3]=sz*j;
+    	min.translation[0]=x;
+		min.translation[1]=y;
+		min.translation[2]=z;
+		j=j+1;
+	    fen=a;
+		deff1=0; }
+ 		  if (a+deff2-xshi>=720){  //ʱת1720=3600*12/60
+	  	hd=1.57+sz*k;
+        y=0.6*Math.sin(hd);
+        x=0.6*Math.cos(hd);
+		z=0;
+		hou.rotation[0]=0;
+		hou.rotation[1]=0;		
+		hou.rotation[2]=1;
+		hou.rotation[3]=sz*k;
+    	hou.translation[0]=x;
+		hou.translation[1]=y;
+		hou.translation[2]=z;
+		k=k+1;
+	    xshi=a;
+		deff2=0; }	 }
+  function xuanzhuan_sec(){		// λõ	
+      if (setenabled){
+        hd=1.57+sz*i;
+        y=0.9*Math.sin(hd);
+        x=0.9*Math.cos(hd);
+		z=0.05;
+		sec.rotation[0]=0;
+		sec.rotation[1]=0;		
+		sec.rotation[2]=1;
+		sec.rotation[3]=sz*i;
+    	sec.translation[0]=x;
+		sec.translation[1]=y;
+		sec.translation[2]=z;
+		i=i+1;  }    }
+  function xuanzhuan_min(){		 // λõ	
+      if (setenabled){
+        hd=1.57+sz*j;
+        y=0.8*Math.sin(hd);
+        x=0.8*Math.cos(hd);
+		z=0;
+		min.rotation[0]=0;
+		min.rotation[1]=0;		
+		min.rotation[2]=1;
+		min.rotation[3]=sz*j;
+    	min.translation[0]=x;
+		min.translation[1]=y;
+		min.translation[2]=z;
+		j=j+1; }    }
+  function xuanzhuan_hou(){		 // ʱλõ	
+      if (setenabled){
+        hd=1.57+sz*k;
+        y=0.6*Math.sin(hd);
+        x=0.6*Math.cos(hd);
+		z=0;
+		hou.rotation[0]=0;
+		hou.rotation[1]=0;		
+		hou.rotation[2]=1;
+		hou.rotation[3]=sz*k;
+    	hou.translation[0]=x;
+		hou.translation[1]=y;
+		hou.translation[2]=z;
+		k=k+1;	}  }
+  "	}
+    ]
+}
+ ROUTE time1.time TO Controller.sec_xz		# ת
+ ROUTE ts0.touchTime TO Controller.clicked	# ʱ
+ ROUTE Controller.enabledt TO time1.enabled	 # ʱ䴫
+ ROUTE ts1.rotation_changed TO Controller.xuanzhuan_sec	  # 
+ ROUTE ts2.rotation_changed TO Controller.xuanzhuan_min	  # ֵ
+ ROUTE ts3.rotation_changed TO Controller.xuanzhuan_hou	  # ʱ
